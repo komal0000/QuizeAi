@@ -15,8 +15,8 @@ class QuizeController extends Controller
         $quizeGenerator = new QuizGenerator();
         $quize=new Quize();
         $quize->user_id=$user->id;
+        $quize->topic = $option;
         $quize->question= json_encode($quizeGenerator->generateQuiz($option, $user->age));
-        $quize->answer= "[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]";
         $quize->save();
         return response(route('play',['quize'=>$quize->id]));
 
@@ -25,9 +25,8 @@ class QuizeController extends Controller
 
     public function play($quize,Request $request ){
         $quizeData = Quize::where('id',$quize)->first();
-        // dd($quizeData);
         if($request->isMethod('GET')){
-            return view('quize.play',compact('quizeData','quize'));
+            return view('quize.play',compact('quizeData','quize' ));
         }else{
             $quizeData->answer = $request->answers;
             $quizeData->score = $request->score;

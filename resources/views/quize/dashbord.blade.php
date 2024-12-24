@@ -12,7 +12,7 @@
             margin-top: 20px;
         }
 
-        .p-4 {
+        .p-3 {
             padding: 16px;
             background: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -24,7 +24,6 @@
             color: #333;
             margin-bottom: 10px;
         }
-
         .text p {
             font-size: 16px;
             color: #666;
@@ -38,17 +37,12 @@
 
         .quize-section button {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #343A40;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
-
-        .quize-section button:hover {
-            background-color: #0056b3;
-        }
-
         #quizeOption select {
             width: 100%;
             padding: 10px;
@@ -77,21 +71,28 @@
         <div class="mid-section">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="p-4">
+                    <div class="p-3">
                         <div class="text">
                             <h1>Quiz</h1>
                             <p>Expand your knowledge</p>
                         </div>
                         <div class="quize-section">
                             <h3>Let's get started</h3>
-                            <button onclick="selectOption();">Start</button>
+                            <button onclick="selectOption();" >Start</button>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div id="quizeOption">
+
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="p-4">
-                        <div id="quizeOption">
-
+                    <div class="p-3">
+                        <div class="quize-score">
+                            <div class="heading" style="font-size: 26px; color:#666">
+                                Your score
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,7 +106,7 @@
     <script>
         function selectOption() {
             $('#quizeOption').append(`
-            <h1> Quize Category </h1>
+            <h1> Category </h1>
              <div class="row">
                                 @foreach (\App\Helper::questionQption as $option)
                                 <div class="col-md-4 mb-2">

@@ -133,7 +133,7 @@
                         @endforeach
                     </ul>
                     <p id="correctAnswer" style="display:none">
-                        {{ $question->answer }}
+                        {{ $question->correctAnswer }}
                     </p>
                 </div>
             @endforeach
@@ -144,14 +144,14 @@
     </div>
     <div class="messege" style="display: none">
         <span>
-            Congrulation You Have Completed the Quiz
+            Congratulations You Have Completed the Quiz
         </span>
-        <div class="score">
+        <div class="score" style="margin-bottom: 25px">
 
         </div>
         <div class="home">
             <a href="{{route('index')}}"  class="btn btn-primary">
-                Bcak to Home
+                Back to Home
             </a>
         </div>
     </div>
@@ -160,7 +160,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     let answers = Array({{ count($questions) }}).fill(null);
-    let correctAnswers = @json(array_map(fn($q) => $q->answer, $questions));
+    let correctAnswers = @json(array_map(fn($q) => $q->correctAnswer, $questions));
 
     function selectOption(selectedOption) {
         const $selectedOption = $(selectedOption);

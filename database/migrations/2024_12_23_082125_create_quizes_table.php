@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('quizes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained();
-            $table->text('answer');
+            $table->text('answer')->nullable();
+            $table->string('topic');
             $table->integer('score')->default(0);
             $table->text('question');
             $table->timestamps();

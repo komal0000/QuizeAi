@@ -20,7 +20,8 @@
         }
 
         .navbar .logo {
-            font-size: 24px;
+            font-size: 34px;
+            padding: 8px;
             font-weight: bold;
         }
 
@@ -55,7 +56,6 @@
             <div class="menu">
                 <ul>
                     <li>
-                        <a href="{{route('index')}}">Home</a>
                     </li>
                 </ul>
             </div>
