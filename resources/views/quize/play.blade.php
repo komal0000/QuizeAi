@@ -102,7 +102,7 @@
             font-size: 24px;
             font-weight: bold;
             color: #4caf50;
-            margin-top: 10px;
+            margin: 10px 0px;
         }
     </style>
 @endsection
@@ -110,7 +110,7 @@
 @section('content')
     <div class="main-content" style="margin-top: 20px;">
         <div class="heading">
-            <h1>{{ json_decode($quizeData->question)->quizTitle }}</h1>
+            <h1>{{ json_decode($quizeData->question)->title }}</h1>
         </div>
         <div class="sub-heading">
             <h2>
@@ -133,7 +133,7 @@
                         @endforeach
                     </ul>
                     <p id="correctAnswer" style="display:none">
-                        {{ $question->correctAnswer }}
+                        {{ $question->answer }}
                     </p>
                 </div>
             @endforeach
@@ -149,50 +149,61 @@
         <div class="score">
 
         </div>
+        <div class="home">
+            <a href="{{route('index')}}"  class="btn btn-primary">
+                Bcak to Home
+            </a>
+        </div>
     </div>
 @endsection
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     let answers = Array({{ count($questions) }}).fill(null);
-    let correctAnswers = @json(array_map(fn($q) => $q->correctAnswer, $questions));
+    let correctAnswers = @json(array_map(fn($q) => $q->answer, $questions));
 
     function selectOption(selectedOption) {
-        const options = selectedOption.parentNode.querySelectorAll('li');
-        const questionIndex = selectedOption.dataset.index;
-        const selectedAnswer = selectedOption.dataset.answer;
-        options.forEach(option => option.classList.remove('selected'));
-        selectedOption.classList.add('selected');
+        const $selectedOption = $(selectedOption);
+        const $options = $selectedOption.parent().find('li');
+        const questionIndex = $selectedOption.data('index');
+        const selectedAnswer = $selectedOption.data('answer');
+        $options.removeClass('selected');
+        $selectedOption.addClass('selected');
         answers[questionIndex] = selectedAnswer;
         showNextQuestion();
     }
 
     function showNextQuestion() {
-        const currentQuestion = document.querySelector('.question-block:not([style*="display: none"])');
-        const nextQuestion = currentQuestion.nextElementSibling;
+        const $currentQuestion = $('.question-block').filter(function() {
+            return $(this).css('display') !== 'none';
+        });
+        const $nextQuestion = $currentQuestion.next('.question-block');
 
-        if (nextQuestion && nextQuestion.classList.contains('question-block')) {
-            currentQuestion.style.display = 'none';
-            nextQuestion.style.display = 'block';
+        if ($nextQuestion.length) {
+            $currentQuestion.hide();
+            $nextQuestion.show();
         }
-        if (!nextQuestion || !nextQuestion.classList.contains('question-block')) {
-            document.getElementById('nextButton').style.display = 'none';
-            document.getElementById('submitButton').style.display = 'block';
+        if (!$nextQuestion.length) {
+            $('#nextButton').hide();
+            $('#submitButton').show();
         }
     }
     function showPreviousQuestion() {
-        const currentQuestion = document.querySelector('.question-block:not([style*="display: none"])');
-        const previousQuestion = currentQuestion.previousElementSibling;
+        const $currentQuestion = $('.question-block').filter(function() {
+            return $(this).css('display') !== 'none';
+        });
+        const $previousQuestion = $currentQuestion.prev('.question-block');
 
-        if (previousQuestion && previousQuestion.classList.contains('question-block')) {
-            currentQuestion.style.display = 'none';
-            previousQuestion.style.display = 'block';
+        if ($previousQuestion.length) {
+            $currentQuestion.hide();
+            $previousQuestion.show();
         }
-        if (!previousQuestion || !previousQuestion.classList.contains('question-block')) {
-            document.getElementById('nextButton').style.display = 'block';
-            document.getElementById('submitButton').style.display = 'none';
+        if (!$previousQuestion.length) {
+            $('#nextButton').show();
+            $('#submitButton').hide();
         }
     }
+
     function submitForm() {
         const totalQuestions = {{ count($questions) }};
         let score = 0;
@@ -209,11 +220,11 @@
         };
         axios.post('{{ route('play', ['quize' => $quize]) }}', data)
             .then(res => {
-                console.log(res.data);
-                document.querySelector('.main-content').style.display = 'none';
-                const messageDiv = document.querySelector('.messege');
-                messageDiv.style.display = 'block';
-                messageDiv.querySelector('.score').innerText = `And you scored ${res.data.score}`;
+                console.log(res);
+                $('.main-content').hide();
+                const $messageDiv = $('.messege');
+                $messageDiv.show();
+                $messageDiv.find('.score').text(`And you scored ${res.data.score}`);
             })
             .catch(error => {
                 console.error(error);

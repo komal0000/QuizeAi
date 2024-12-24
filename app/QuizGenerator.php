@@ -63,6 +63,43 @@ class QuizGenerator
             throw new \Exception("Failed to extract JSON from response.");
         }
 
+        // Normalize the quiz data for consistent naming
+        $normalizedQuiz = $this->normalizeQuiz($quiz, $topic);
+
+        return $normalizedQuiz;
+    }
+
+    private function normalizeQuiz($quiz, $topic)
+    {
+        // Ensure the "title" key exists and has a consistent naming convention
+        if (!isset($quiz['title'])) {
+            $quiz['title'] = ucfirst($topic) . ' Quiz'; // Fallback to a generated title if not provided
+        }
+
+        // Ensure questions and options have consistent naming
+        if (isset($quiz['questions']) && is_array($quiz['questions'])) {
+            foreach ($quiz['questions'] as &$question) {
+                // Normalize question text
+                if (!isset($question['question'])) {
+                    $question['question'] = 'Untitled Question';
+                }
+
+                // Normalize options
+                if (isset($question['options']) && is_array($question['options'])) {
+                    $question['options'] = array_map('trim', $question['options']);
+                } else {
+                    $question['options'] = [];
+                }
+
+                // Ensure the correct answer field exists
+                if (!isset($question['answer'])) {
+                    $question['answer'] = null; // Or provide a default value if necessary
+                }
+            }
+        } else {
+            $quiz['questions'] = [];
+        }
+
         return $quiz;
     }
 }
