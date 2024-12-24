@@ -95,6 +95,7 @@
     <script>
         function selectOption() {
             $('#quizeOption').append(`
+            <h1> Quize Category </h1>
              <div class="row">
                                 @foreach (\App\Helper::questionQption as $option)
                                 <div class="col-md-4 mb-2">
@@ -111,14 +112,14 @@
             `);
             $('.quize-section').hide();
         }
-
         function loadNewQuiz(url){
             let loadingIndicator = document.createElement('div');
-            loadingIndicator.innerText = 'Loading the quiz for you...';
-            loadingIndicator.style.fontSize = '60px';
-            loadingIndicator.style.fontWeight = '700';
-            loadingIndicator.style.color = 'white';
-            loadingIndicator.style.textAlign = 'center';
+            loadingIndicator.style.width = '50px';
+            loadingIndicator.style.height = '50px';
+            loadingIndicator.style.border = '5px solid #f3f3f3';
+            loadingIndicator.style.borderTop = '5px solid #3498db';
+            loadingIndicator.style.borderRadius = '50%';
+            loadingIndicator.style.animation = 'spin 2s linear infinite';
             loadingIndicator.style.position = 'fixed';
             loadingIndicator.style.top = '50%';
             loadingIndicator.style.left = '50%';
@@ -134,8 +135,22 @@
             dimBackground.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
             dimBackground.style.zIndex = '9998';
 
+            let loadingText = document.createElement('div');
+            loadingText.innerText = 'Generating Quiz using Ai';
+            loadingText.style.position = 'fixed';
+            loadingText.style.top = '62%';
+            loadingText.style.left = '52%';
+            loadingText.style.transform = 'translate(-50%, -50%)';
+            loadingText.style.color = 'white';
+            loadingText.style.zIndex = '9999';
+            loadingText.style.textAlign = 'center';
+            loadingText.style.padding = '10px';
+            loadingText.style.width = '80%';
+            loadingText.style.maxWidth = '300px';
+
             document.body.appendChild(dimBackground);
             document.body.appendChild(loadingIndicator);
+            document.body.appendChild(loadingText);
 
             event.preventDefault();
             axios.post(url,{})
@@ -148,8 +163,19 @@
             .finally(()=>{
             loadingIndicator.remove();
             dimBackground.remove();
+            loadingText.remove();
             });
         }
+
+        let style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = `
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        `;
+        document.getElementsByTagName('head')[0].appendChild(style);
 
 
     </script>

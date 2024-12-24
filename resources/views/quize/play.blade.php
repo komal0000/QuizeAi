@@ -90,6 +90,20 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+
+        .messege {
+            text-align: center;
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .messege .score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4caf50;
+            margin-top: 10px;
+        }
     </style>
 @endsection
 
@@ -119,22 +133,29 @@
                         @endforeach
                     </ul>
                     <p id="correctAnswer" style="display:none">
-                          {{$question->answer}}
+                        {{ $question->correctAnswer }}
                     </p>
                 </div>
             @endforeach
         </div>
-        <button type="button" class="btn-primary" id="nextButton" onclick="showNextQuestion()">Next</button>
+        <button type="button" class="btn-primary" id="nextButton" onclick="showPreviousQuestion()">Previous</button>
         <button type="button" class="btn btn-success" id="submitButton" style="display: none"
             onclick="submitForm()">Submit</button>
     </div>
+    <div class="messege" style="display: none">
+        <span>
+            Congrulation You Have Completed the Quiz
+        </span>
+        <div class="score">
+
+        </div>
+    </div>
 @endsection
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     let answers = Array({{ count($questions) }}).fill(null);
-    let correctAnswers = @json(array_map(fn($q) => $q->answer, $questions));
+    let correctAnswers = @json(array_map(fn($q) => $q->correctAnswer, $questions));
 
     function selectOption(selectedOption) {
         const options = selectedOption.parentNode.querySelectorAll('li');
@@ -143,6 +164,7 @@
         options.forEach(option => option.classList.remove('selected'));
         selectedOption.classList.add('selected');
         answers[questionIndex] = selectedAnswer;
+        showNextQuestion();
     }
 
     function showNextQuestion() {
@@ -158,33 +180,44 @@
             document.getElementById('submitButton').style.display = 'block';
         }
     }
+    function showPreviousQuestion() {
+        const currentQuestion = document.querySelector('.question-block:not([style*="display: none"])');
+        const previousQuestion = currentQuestion.previousElementSibling;
 
-    function submitForm() {
-        const totalQuestions = {{ count($questions) }};
-        if (answers.filter(a => a !== null).length === totalQuestions) {
-            let score = 0;
-            answers.forEach((answer, index) => {
-                if (answer === correctAnswers[index]) {
-                    score++;
-                }
-            });
-
-            const data = {
-                _token: '{{ csrf_token() }}',
-                score: score,
-                answers: answers,
-            };
-            axios.post('{{ route('play', ['quize' => $quize]) }}', data)
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert('An error occurred while submitting the quiz.');
-                });
-        } else {
-            alert('Please answer all questions before submitting.');
+        if (previousQuestion && previousQuestion.classList.contains('question-block')) {
+            currentQuestion.style.display = 'none';
+            previousQuestion.style.display = 'block';
+        }
+        if (!previousQuestion || !previousQuestion.classList.contains('question-block')) {
+            document.getElementById('nextButton').style.display = 'block';
+            document.getElementById('submitButton').style.display = 'none';
         }
     }
-</script>
+    function submitForm() {
+        const totalQuestions = {{ count($questions) }};
+        let score = 0;
+        answers.forEach((answer, index) => {
+            if (answer === correctAnswers[index]) {
+                score++;
+            }
+        });
 
+        const data = {
+            _token: '{{ csrf_token() }}',
+            score: score,
+            answers: answers,
+        };
+        axios.post('{{ route('play', ['quize' => $quize]) }}', data)
+            .then(res => {
+                console.log(res.data);
+                document.querySelector('.main-content').style.display = 'none';
+                const messageDiv = document.querySelector('.messege');
+                messageDiv.style.display = 'block';
+                messageDiv.querySelector('.score').innerText = `And you scored ${res.data.score}`;
+            })
+            .catch(error => {
+                console.error(error);
+                alert('An error occurred while submitting the quiz.');
+            });
+    }
+</script>

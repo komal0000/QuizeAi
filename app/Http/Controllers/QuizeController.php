@@ -25,6 +25,7 @@ class QuizeController extends Controller
 
     public function play($quize,Request $request ){
         $quizeData = Quize::where('id',$quize)->first();
+        // dd($quizeData);
         if($request->isMethod('GET')){
             return view('quize.play',compact('quizeData','quize'));
         }else{
