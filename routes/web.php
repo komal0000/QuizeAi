@@ -10,5 +10,6 @@ Route::match(['get', 'post'], 'login',[LoginController::class,'login'])->name('l
 
 Route::middleware(['auth'])->group(function(){
     Route::get('',[DashbordController::class,'index'])->name('index');
-    Route::match(['GET','POST'],'singlequize/{option}',[QuizeController::class,'singlequize'])->name('singlequize');
+    Route::match(['POST'],'singlequize/{option}',[QuizeController::class,'singlequize'])->name('singlequize');
+    Route::match(['GET','POST'],'play/{quize}',[QuizeController::class,'play'])->name('play');
 });

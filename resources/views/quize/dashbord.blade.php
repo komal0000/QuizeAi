@@ -69,7 +69,7 @@
                 <div class="col-md-6">
                     <div class="p-4">
                         <div class="text">
-                            <h1>Quize</h1>
+                            <h1>Quiz</h1>
                             <p>Expand your knowledge</p>
                         </div>
                         <div class="quize-section">
@@ -81,19 +81,7 @@
                 <div class="col-md-6">
                     <div class="p-4">
                         <div id="quizeOption">
-                            <div class="row">
-                                @foreach (\App\Helper::questionQption as $option)
-                                <div class="col-md-4 mb-2">
-                                    <div class="single-block">
-                                        <a href="{{route('singlequize',['option'=>$option])}}">
-                                            <div class="topic">
-                                                {{ ucfirst($option) }}
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -103,11 +91,66 @@
 @endsection
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function selectOption() {
             $('#quizeOption').append(`
+             <div class="row">
+                                @foreach (\App\Helper::questionQption as $option)
+                                <div class="col-md-4 mb-2">
+                                    <div class="single-block">
+                                        <a href="{{route('singlequize',['option'=>$option])}}" onclick="loadNewQuiz(this.href)">
+                                            <div class="topic">
+                                                {{ ucfirst($option) }}
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
             `);
             $('.quize-section').hide();
         }
+
+        function loadNewQuiz(url){
+            let loadingIndicator = document.createElement('div');
+            loadingIndicator.innerText = 'Loading the quiz for you...';
+            loadingIndicator.style.fontSize = '60px';
+            loadingIndicator.style.fontWeight = '700';
+            loadingIndicator.style.color = 'white';
+            loadingIndicator.style.textAlign = 'center';
+            loadingIndicator.style.position = 'fixed';
+            loadingIndicator.style.top = '50%';
+            loadingIndicator.style.left = '50%';
+            loadingIndicator.style.transform = 'translate(-50%, -50%)';
+            loadingIndicator.style.zIndex = '9999';
+
+            let dimBackground = document.createElement('div');
+            dimBackground.style.position = 'fixed';
+            dimBackground.style.top = '0';
+            dimBackground.style.left = '0';
+            dimBackground.style.width = '100%';
+            dimBackground.style.height = '100%';
+            dimBackground.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            dimBackground.style.zIndex = '9998';
+
+            document.body.appendChild(dimBackground);
+            document.body.appendChild(loadingIndicator);
+
+            event.preventDefault();
+            axios.post(url,{})
+            .then(function (res) {
+            window.open(res.data, '_blank');
+            })
+            .catch(function (err) {
+            console.log(err);
+            })
+            .finally(()=>{
+            loadingIndicator.remove();
+            dimBackground.remove();
+            });
+        }
+
+
     </script>
 @endsection
