@@ -56,6 +56,10 @@
             <div class="menu">
                 <ul>
                     <li>
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
                     </li>
                 </ul>
             </div>

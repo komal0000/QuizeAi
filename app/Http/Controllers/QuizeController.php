@@ -13,12 +13,19 @@ class QuizeController extends Controller
     public function singlequize($option ,Request $request ){
         $user = Auth::user();
         $quizeGenerator = new QuizGenerator();
-        $quize=new Quize();
-        $quize->user_id=$user->id;
-        $quize->topic = $option;
-        $quize->question= json_encode($quizeGenerator->generateQuiz($option, $user->age));
-        $quize->save();
-        return response(route('play',['quize'=>$quize->id]));
+
+        $quize = DB::table('quizes')->where('topic',$option)->first();
+
+        if($quize){
+            return response(route('play',['quize'=>$quize->id]));
+        }else{
+            $quize=new Quize();
+            $quize->user_id=$user->id;
+            $quize->topic = $option;
+            $quize->question= json_encode($quizeGenerator->generateQuiz($option, $user->age));
+            $quize->save();
+            return response(route('play',['quize'=>$quize->id]));
+        }
 
 
     }
