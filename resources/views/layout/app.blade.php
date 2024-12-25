@@ -25,15 +25,8 @@
             font-weight: bold;
         }
 
-        .navbar .menu ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar .menu ul li {
-            margin: 0 10px;
+        .navbar .menu a {
+            font-size: 18px;
         }
 
         a {
@@ -54,14 +47,9 @@
                 </a>
             </div>
             <div class="menu">
-                <ul>
-                    <li>
-                        <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
-                    </li>
-                </ul>
+                <a href="{{ route('logout') }}">
+                 Logout
+             </a>
             </div>
         </div>
     </div>
