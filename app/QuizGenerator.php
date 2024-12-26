@@ -57,6 +57,7 @@ class QuizGenerator
         }
 
         $responseBody = $response->json();
+
         $quiz = $this->extractJSON($responseBody);
 
         if (!$quiz) {

@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login Form</title>
+    <title>
+        Quiz App
+    </title>
+    <link rel="icon" href="{{ asset('asset/images/favicon1.png') }}" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -125,9 +128,9 @@
 
 <body>
     <div class="login-container">
-        <h2>Sign in</h2>
+        <h2>Sign In</h2>
 
-        <form action="{{route('signup')}}" method="POST">
+        <form action="{{route('signin')}}" method="POST">
             @csrf
             <div class="form-group">
                 <i class="fas fa-user"></i>
@@ -145,7 +148,7 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn-login">Signup</button>
+            <button type="submit" class="btn-login">SignIn</button>
         </form>
         <div class="signup-link">
              Have an account? <a href="{{route('login')}}">Login</a>

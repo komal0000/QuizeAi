@@ -61,7 +61,7 @@
         }
 
         .question-block ul li.selected {
-            background-color: #4caf50;
+            background-color: black;
             color: white;
         }
 
@@ -132,14 +132,11 @@
                             </li>
                         @endforeach
                     </ul>
-                    <p id="correctAnswer" style="display:none">
-                        {{ $question->correctAnswer }}
-                    </p>
                 </div>
             @endforeach
         </div>
         <button type="button" class="btn-primary" id="nextButton" onclick="showPreviousQuestion()">Previous</button>
-        <button type="button" class="btn btn-success" id="submitButton" style="display: none"
+        <button type="button" class="btn btn-dark" id="submitButton" style="display: none"
             onclick="submitForm()">Submit</button>
     </div>
     <div class="messege" style="display: none">
@@ -150,7 +147,7 @@
 
         </div>
         <div class="home">
-            <a href="{{route('index')}}"  class="btn btn-primary">
+            <a href="{{route('index')}}"  class="btn btn-dark">
                 Back to Home
             </a>
         </div>
@@ -160,7 +157,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     let answers = Array({{ count($questions) }}).fill(null);
-    let correctAnswers = @json(array_map(fn($q) => $q->correctAnswer, $questions));
+    let correctAnswers = @json(array_map(fn($q) => $q->answer, $questions));
 
     function selectOption(selectedOption) {
         const $selectedOption = $(selectedOption);

@@ -5,7 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QuizeController;
 use Illuminate\Support\Facades\Route;
 
-Route::match(['get', 'post'], 'signup',[LoginController::class,'signup'])->name('signup');
+Route::match(['get', 'post'], 'signin',[LoginController::class,'signin'])->name('signin');
 Route::match(['get', 'post'], 'login',[LoginController::class,'login'])->name('login');
 
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');

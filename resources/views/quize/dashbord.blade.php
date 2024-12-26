@@ -4,7 +4,7 @@
     <style>
         .main-content {
             font-family: 'Poppins', sans-serif;
-            padding: 20px;
+            padding: 10px 20px;
             background-color: #f4f6f8;
         }
 
@@ -15,7 +15,7 @@
         .p-3 {
             padding: 20px;
             background: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
             border-radius: 12px;
             margin-bottom: 20px;
         }
@@ -43,7 +43,7 @@
 
         .quize-section button {
             padding: 12px 24px;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: linear-gradient(to right, #000000, #434343);
             color: #fff;
             font-size: 16px;
             font-weight: bold;
@@ -54,7 +54,7 @@
         }
 
         .quize-section button:hover {
-            background: linear-gradient(to right, #2575fc, #6a11cb);
+            background: linear-gradient(to right, #000000, #434343);
             transform: scale(1.05);
         }
 
@@ -68,7 +68,7 @@
         }
 
         .single-block {
-            background: #2c3e50;
+            background: black;
             border-radius: 12px;
             padding: 20px;
             text-align: center;
@@ -89,7 +89,7 @@
         .quize-score {
             background: #fdfdfd;
             border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); */
             padding: 20px;
         }
 
@@ -234,10 +234,14 @@
                     <div class="p-3">
                         <div class="quize-score">
                             <div class="heading">🏆 Your Score</div>
-                            @foreach ($userQuizScores as $score)
+                            @foreach ($userQuizScores as $key=>$score)
                                 <div class="score-item">
                                     <strong>{{ ucfirst($score->topic) }}</strong>
-                                    <span>{{ $score->score }}</span>
+                                    <span>
+                                        {{ $score->score }}
+                                        |
+                                        {{ \Carbon\Carbon::parse($score->created_at)->format('Y-m-d') }}
+                                    </span>
                                 </div>
                             @endforeach
                         </div>
@@ -259,7 +263,7 @@
                     @foreach (\App\Helper::questionQption as $option)
                         <div class="col-md-4 mb-2">
                             <div class="single-block">
-                                <a href="{{ route('singlequize', ['option' => $option]) }}" onclick="loadNewQuiz(this.href)">
+                                <a style="text-decoration:none" href="{{ route('singlequize', ['option' => $option]) }}" onclick="loadNewQuiz(this.href)">
                                     <div class="topic">{{ ucfirst($option) }}</div>
                                 </a>
                             </div>
@@ -280,10 +284,14 @@
             event.preventDefault();
             axios.post(url, {})
                 .then(function(res) {
-                    window.open(res.data, '_blank');
+                    window.location.href = res.data;
                 })
                 .catch(function(err) {
-                    console.log(err);
+                    if(err){
+                        let errorImage = $('<img src="/path/to/bowing-head-image.png" alt="Error" style="width: 100px; height: 100px;">');
+                        let errorMessage = $('<div class="loading-text">Failed to load the quiz</div>');
+                        $('body').append(errorImage).append(errorMessage);
+                    }
                 })
                 .finally(() => {
                     loadingIndicator.remove();

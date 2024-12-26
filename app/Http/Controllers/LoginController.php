@@ -9,10 +9,10 @@ use PDO;
 
 class LoginController extends Controller
 {
-    public function signup(Request $request)
+    public function signin(Request $request)
     {
         if ($request->getMethod() == "GET") {
-            return view('signup');
+            return view('signin');
         } else {
             $request->validate([
                 'name' => 'required|string|max:255',
