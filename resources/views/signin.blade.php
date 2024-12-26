@@ -128,8 +128,10 @@
 
 <body>
     <div class="login-container">
-        <h2>Sign In</h2>
-
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="{{ asset('asset/images/topicon.png') }}" alt="Logo" style="max-width: 100px;">
+        </div>
+        <h2>Quizy Sign In</h2>
         <form action="{{route('signin')}}" method="POST">
             @csrf
             <div class="form-group">

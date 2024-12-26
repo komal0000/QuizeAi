@@ -141,7 +141,7 @@
         <div style="text-align: center; margin-bottom: 20px;">
             <img src="{{ asset('asset/images/topicon.png') }}" alt="Logo" style="max-width: 100px;">
         </div>
-        <h2>Login</h2>
+        <h2>Quizy Login</h2>
         @if($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -169,7 +169,7 @@
             </div>
             <button type="submit" class="btn-login">LOGIN</button>
             <div class="signup-link">
-                Don't have an account? <a href="{{ route('singin') }}">Sign In</a>
+                Don't have an account? <a href="{{ route('signin') }}">Sign In</a>
             </div>
         </form>
     </div>
