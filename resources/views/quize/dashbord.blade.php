@@ -113,8 +113,13 @@
 
         /* Loading animation styles */
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .loading-indicator {
@@ -208,6 +213,26 @@
                 font-size: 14px;
             }
         }
+
+        .errorImage {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+        .errorMessage {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-size: 18px;
+            z-index: 9999;
+            max-width: 300px;
+            text-align: center;
+            padding: 10px;
+        }
     </style>
 @endsection
 
@@ -234,7 +259,7 @@
                     <div class="p-3">
                         <div class="quize-score">
                             <div class="heading">🏆 Your Score</div>
-                            @foreach ($userQuizScores as $key=>$score)
+                            @foreach ($userQuizScores as $key => $score)
                                 <div class="score-item">
                                     <strong>{{ ucfirst($score->topic) }}</strong>
                                     <span>
@@ -253,7 +278,7 @@
 @endsection
 
 @section('js')
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function selectOption() {
             $('#option').show();
@@ -287,10 +312,19 @@
                     window.location.href = res.data;
                 })
                 .catch(function(err) {
-                    if(err){
-                        let errorImage = $('<img src="/path/to/bowing-head-image.png" alt="Error" style="width: 100px; height: 100px;">');
-                        let errorMessage = $('<div class="loading-text">Failed to load the quiz</div>');
-                        $('body').append(errorImage).append(errorMessage);
+                    if (err) {
+                        let errorImage = $(
+                            '<img src="{{ asset('asset/images/bowinghead.png') }}" alt="Error" style="width: 100px; height: 100px;" class="errorImage">'
+                        );
+                        let errorMessage = $('<div class="errorMessage">Failed to load the quiz</div>');
+                        let dimBackground = $('<div class="dim-background"></div>');
+                        $('body').append(dimBackground).append(errorImage).append(errorMessage);
+
+                        setTimeout(() => {
+                            errorImage.remove();
+                            errorMessage.remove();
+                            dimBackground.remove();
+                        }, 3000);
                     }
                 })
                 .finally(() => {

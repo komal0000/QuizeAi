@@ -11,23 +11,33 @@ use App\QizGeneratorOpenAI;
 
 class QuizeController extends Controller
 {
-    public function singlequize($option ,Request $request ){
+    public function singlequize($option, Request $request)
+    {
         $user = Auth::user();
         $quizeGenerator = new QizGeneratorOpenAI();
-        $quize=new Quize();
-        $quize->user_id=$user->id;
-        $quize->topic = $option;
-        $quize->question= json_encode($quizeGenerator->generateQuiz($option, $user->age,10));
-        $quize->save();
-        return response(route('play',['quize'=>$quize->id]));
-
+        $quize = DB::table('quizes')->where('topic', $option)->first();
+        if ($quize) {
+            $quize->user_id = $user->id;
+            $quize->topic = $option;
+            $quize->question = json_encode($quizeGenerator->generateQuiz($option, $user->age, 10));
+            $quize->save();
+            return response(route('play', ['quize' => $quize->id]));
+        } else {
+            $quize = new Quize();
+            $quize->user_id = $user->id;
+            $quize->topic = $option;
+            $quize->question = json_encode($quizeGenerator->generateQuiz($option, $user->age, 10));
+            $quize->save();
+            return response(route('play', ['quize' => $quize->id]));
+        }
     }
 
-    public function play($quize,Request $request ){
-        $quizeData = Quize::where('id',$quize)->first();
-        if($request->isMethod('GET')){
-            return view('quize.play',compact('quizeData','quize' ));
-        }else{
+    public function play($quize, Request $request)
+    {
+        $quizeData = Quize::where('id', $quize)->first();
+        if ($request->isMethod('GET')) {
+            return view('quize.play', compact('quizeData', 'quize'));
+        } else {
             $quizeData->answer = $request->answers;
             $quizeData->score = $request->score;
             $quizeData->save();
