@@ -139,7 +139,7 @@
 <body>
     <div class="login-container">
         <div style="text-align: center; margin-bottom: 20px;">
-            <img src="{{ asset('asset/images/topicon.png') }}" alt="Logo" style="max-width: 100px;">
+            <img src="{{ asset('asset/images/topicon.png') }}" alt="Logo" style="max-width: 100px; background: white; border-radius: 45px">
         </div>
         <h2>Quizy Login</h2>
         @if($errors->any())

@@ -13,9 +13,10 @@
     <link rel="icon" href="{{ asset('asset/images/favicon1.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('asset/css/index.css') }}">
     <style>
-        .body{
+        .body {
             font-family: Arial, sans-serif;
         }
+
         .top {
             padding: 0px 20px;
         }
@@ -31,8 +32,11 @@
         }
 
         .navbar .logo a img {
-            height: 65px;
+            height: 70px;
             width: auto;
+            background: white;
+            border-radius: 45px;
+
         }
 
         .navbar .menu a {

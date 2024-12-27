@@ -15,7 +15,6 @@
         .p-3 {
             padding: 20px;
             background: #ffffff;
-
             border-radius: 12px;
             margin-bottom: 20px;
         }
@@ -40,21 +39,24 @@
             margin-bottom: 15px;
             text-align: center;
         }
-
+        .quize-section{
+            text-align: center;
+        }
         .quize-section button {
             padding: 12px 24px;
-            background: linear-gradient(to right, #000000, #434343);
+            background: #000000;
             color: #fff;
             font-size: 16px;
             font-weight: bold;
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            width:50%;
             transition: all 0.3s ease-in-out;
         }
 
         .quize-section button:hover {
-            background: linear-gradient(to right, #000000, #434343);
+            background:#34495E;
             transform: scale(1.05);
         }
 
@@ -89,7 +91,6 @@
         .quize-score {
             background: #fdfdfd;
             border-radius: 12px;
-            /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); */
             padding: 20px;
         }
 
@@ -248,7 +249,7 @@
                         </div>
                         <div class="quize-section">
                             <h3>Let's get started</h3>
-                            <button onclick="selectOption();">Start</button>
+                            <button onclick="selectOption();">START</button>
                         </div>
                     </div>
                     <div class="p-3" id="option" style="display: none">
@@ -314,9 +315,9 @@
                 .catch(function(err) {
                     if (err) {
                         let errorImage = $(
-                            '<img src="{{ asset('asset/images/bowinghead.png') }}" alt="Error" style="width: 100px; height: 100px;" class="errorImage">'
+                            '<img src="{{ asset('asset/images/mocha.gif') }}" alt="Error" style="width: 100px; height: 100px;" class="errorImage">'
                         );
-                        let errorMessage = $('<div class="errorMessage">Failed to load the quiz</div>');
+                        let errorMessage = $('<div class="errorMessage">We Are really sorry</div>');
                         let dimBackground = $('<div class="dim-background"></div>');
                         $('body').append(dimBackground).append(errorImage).append(errorMessage);
 
