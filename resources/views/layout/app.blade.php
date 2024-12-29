@@ -18,7 +18,7 @@
         }
 
         .top {
-            padding: 0px 20px;
+            /* padding: 0px 20px; */
         }
 
         .navbar {
@@ -27,15 +27,14 @@
             align-items: center;
             padding: 10px 20px;
             background-color: black;
-            border-radius: 8px;
             color: white;
         }
 
         .navbar .logo a img {
-            height: 70px;
+            height: 50px;
             width: auto;
             background: white;
-            border-radius: 45px;
+            border-radius: 25px;
 
         }
 
@@ -54,10 +53,10 @@
             border-radius: 5px;
         }
 
-        a {
+        /* a {
             text-decoration: none;
             color: white;
-        }
+        } */
 
         @media (max-width: 768px) {
             .navbar {

@@ -15,7 +15,7 @@ class QuizeController extends Controller
     {
         $user = Auth::user();
         $quizeGenerator = new QizGeneratorOpenAI();
-        $quize = DB::table('quizes')->where('topic', $option)->first();
+        $quize = Quize::where('topic', $option)->first();
         if ($quize) {
             $quize->user_id = $user->id;
             $quize->topic = $option;

@@ -10,7 +10,7 @@ class DashbordController extends Controller
 {
     public function index(){
         $user = Auth::user();
-        $userQuizScores = DB::table('quizes')->where('user_id',$user->id)->get(['topic','score','created_at']);
+        $userQuizScores = DB::table('quizes')->where('user_id',$user->id)->get(['topic','score','created_at','id']);
         return view('quize.dashbord',compact('userQuizScores'));
     }
 }

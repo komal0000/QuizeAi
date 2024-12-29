@@ -267,6 +267,8 @@
                                         {{ $score->score }}
                                         |
                                         {{ \Carbon\Carbon::parse($score->created_at)->format('Y-m-d') }}
+                                        |
+                                        <a href="{{route('play',['quize'=>$score->id])}}">Try Again</a>
                                     </span>
                                 </div>
                             @endforeach

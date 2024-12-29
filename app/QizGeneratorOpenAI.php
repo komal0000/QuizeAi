@@ -26,7 +26,11 @@ class QizGeneratorOpenAI {
     public function generateQuiz($topic, $ageGroup, $numberOfQuestions = 5) {
         $prompt = "Create unique quiz everytime we call api with $numberOfQuestions questions on the topic '$topic' suitable for the age group '$ageGroup' with 4 multiple-choice options and make right answer. Return as JSON with format {
                     \"title\": \"\",
-                    \"questions\": []
+                    \"questions\": [
+                        question:'',
+                        options:[],
+                        answer:'<correct_answer>'
+                    ]
                 }";
 
         $response = $this->callOpenAI($prompt);
@@ -90,7 +94,9 @@ class QizGeneratorOpenAI {
 
         $quiz=[
             'title'=>"",
-            'quesitions'=>[]
+            'quesitions'=>[
+
+            ]
         ];
 
         $pattern = '/```json\n(.*?)\n```/s';

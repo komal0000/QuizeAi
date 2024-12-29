@@ -169,7 +169,7 @@
             </div>
             <button type="submit" class="btn-login">LOGIN</button>
             <div class="signup-link">
-                Don't have an account? <a href="{{ route('signin') }}">Sign In</a>
+                Don't have an account? <a href="{{ route('signin') }}">Sign Up</a>
             </div>
         </form>
     </div>
